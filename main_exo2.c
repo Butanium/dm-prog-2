@@ -8,7 +8,6 @@
 void test_add_remove();
 
 //Q8
-
 int main(int argc, char *argv[]) {
     hlist_t *l = hlist_new();
     for (int i = 1; i < argc; i++) {
