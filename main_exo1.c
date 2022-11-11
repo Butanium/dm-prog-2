@@ -3,7 +3,7 @@
 //
 
 #include <stdio.h>
-#include "tablist.c"
+#include "tablist_lib.c"
 
 int main(int argc, char *argv[]) {
     tlist_t *l = tlist_new();

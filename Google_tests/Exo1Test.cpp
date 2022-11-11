@@ -2,7 +2,7 @@
 // Created by Clement on 08/11/2022.
 //
 #include "gtest/gtest.h"
-#include "tablist.c"
+#include "tablist_lib.c"
 
 // This function converts a tlist_t to an array of int*int :
 std::tuple<int, int> *tlist_to_array(tlist_t *l) {
