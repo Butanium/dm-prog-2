@@ -1,10 +1,6 @@
 Ce projet est compilé avec CMake. Il est donc nécessaire d'installer CMake sur votre machine. Pour cela, vous pouvez
 suivre les instructions suivantes : https://cmake.org/install/
 
-Si jamais le format de rendu ne vous convient pas (je trouve personnellement
-que le fait d'avoir des tests unitaires est très pratique), 
-vous pouvez juste utiliser les fichiers
-`exo1.c` et `exo2.c`.
 
 
 # Répartition des fichiers
