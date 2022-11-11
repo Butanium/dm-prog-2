@@ -38,6 +38,7 @@ hlist_t *hlist_new() {
 void hlist_free(hlist_t *hlist) {
     hnode_t *curr_vert = hlist->head;
     while (curr_vert != NULL) {
+        // Pour chaque ligne on supprime les noeuds
         hnode_t *curr_hor = curr_vert->right;
         while (curr_hor != NULL) {
             hnode_t *temp = curr_hor;
@@ -57,6 +58,7 @@ int hlist_search(hlist_t *l, int v, hnode_t *path[]) {
     while (current_node != NULL) {
         int right_val = current_node->right->value;
         if (right_val > v) {
+            // On a trouvé le noeud duquel descendre
             path[i] = current_node;
             i++;
             current_node = current_node->bottom;
@@ -77,7 +79,9 @@ int hlist_add(hlist_t *l, int v) {
     hlist_search(l, v, path);
     int i = l->height - 1;
     hnode_t *last = NULL;
+    // On part d'en bas et on remonte avec une chance sur deux à chaque fois
     while (i >= 0) {
+        // Ajout du nouveau noeud
         hnode_t *new_node = malloc(sizeof(hnode_t));
         new_node->value = v;
         new_node->left = path[i];
@@ -86,16 +90,18 @@ int hlist_add(hlist_t *l, int v) {
         path[i]->right = new_node;
         new_node->top = new_node->bottom = NULL;
         if (last != NULL) {
+            // On relie le nouveau noeud au noeud du dessous
             last->top = new_node;
             new_node->bottom = last;
         }
         last = new_node;
         i--;
-        if (rand() > (RAND_MAX / 2)) {// Real random bool NOLINT(cert-msc50-cpp)
+        if (rand() > (RAND_MAX / 2)) {
             break;
         }
     }
     if (i == -1) {
+        // On a ajouté jusqu'en haut, il faut donc ajouter une nouvelle ligne avec seulement les bornes -/+ inf au dessus.
         hnode_t *new_left = malloc(sizeof(hnode_t));
         hnode_t *new_right = malloc(sizeof(hnode_t));
         new_left->value = INT_MIN;
@@ -118,7 +124,7 @@ int hlist_add(hlist_t *l, int v) {
 //Q7
 int hlist_remove(hlist_t *l, int v) {
     if (v == INT_MIN || v == INT_MAX) {
-        return 0;
+        return 0; // On ne veut pas accepter ces valeurs
     }
     hnode_t **path = malloc(sizeof(hnode_t) * l->height);
     hlist_search(l, v, path);
@@ -134,10 +140,14 @@ int hlist_remove(hlist_t *l, int v) {
         path[i]->right->left = path[i]->left;
         if (path[i]->left->value == INT_MIN && path[i]->right->value == INT_MAX && i) {
             if (first_complete_remove) {
+                // On est en train de supprimer le seul noeud de la ligne (pour la première fois),
+                // on doit donc la supprimer.
                 first_complete_remove = false;
                 l->head->bottom = path[i]->left->bottom;
                 l->head->right->bottom = path[i]->right->bottom;
                 if (l->height > 2) {
+                    // On link les noeuds du dessous à la ligne de la tête
+                    // Cette ligne sera la seule ligne en dessous de la tête
                     path[i]->left->bottom->top = l->head;
                     path[i]->right->bottom->top = l->head->right;
                 }
@@ -154,6 +164,7 @@ int hlist_remove(hlist_t *l, int v) {
 
 void hlist_print(hlist_t *l) {
     hnode_t *curr_vert = l->head;
+    // On parcourt encore chaque ligne
     while (curr_vert != NULL) {
         hnode_t *curr_hor = curr_vert;
         while (curr_hor != NULL) {

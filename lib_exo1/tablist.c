@@ -87,7 +87,7 @@ int tlist_add(tlist_t *l, int x, int y) {
             return 1;
         }
     }
-    assert(false); // Unreachable
+    assert(false); // Unreachable because there is at least one free cell
     return 0;
 }
 
@@ -107,7 +107,7 @@ int tlist_remove(tlist_t *l, int x, int y) {
             } else {
                 l->tab[current->prev].next = current->next;
                 if (current->next == -1) {
-                    // We are removing the last
+                    // We are removing the last element
                     l->last = current->prev;
                 } else {
                     l->tab[current->next].prev = current->prev;
@@ -188,6 +188,7 @@ int tlist_swap(tlist_t *l, int i, int j) {
     if (l->size <= i || l->size <= j) {
         return 0;
     }
+    // On pourrait le faire en une seule passe mais le code est plus lisible comme ça
     elem_t *elem_i = tlist_nth(l, i);
     elem_t *elem_j = tlist_nth(l, j);
     swap_values(elem_i, elem_j);
@@ -239,4 +240,4 @@ int tlist_print(tlist_t *l) {
 }
 
 //Q15
-// Dans le fichier à la root du projet
+// Dans le fichier `main_exo1.c` à la root du projet
